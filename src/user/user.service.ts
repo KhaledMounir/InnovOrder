@@ -12,7 +12,7 @@ export class UserService {
  constructor(@InjectModel("User") private readonly userModel: Model<User>,
  private jwtService: JwtService) {}
 
- //La creation d'un utilisateur
+ //SignUp a user
  async createUser(user : User){
   try {
    user.password = await bcrypt.hash(user.password, 10);
@@ -25,12 +25,12 @@ export class UserService {
  }
 
  //l'authentification d'un utilisateur
- async loginUser(user : User, @Res() res){
+ async loginUser(user : User){
   try {
    const findUser = await this.userModel.findOne({username : user.username})
 
    if(!findUser){
-    res.status(404).send("user not found")
+    return "user not found"
    }
    const isMatch =  await bcrypt.compare(user.password, findUser.password);
 
@@ -49,7 +49,7 @@ export class UserService {
   
  }
 
- // gte le produit par son code bar
+ // gte the product by it's code barre
  async getProduct(codeBar : String){
   let s;
    await axios.get('https://world.openfoodfacts.org/api/v0/product/' + codeBar)

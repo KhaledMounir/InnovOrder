@@ -7,7 +7,7 @@ import { UserModule } from './user/user.module';
 
 
 @Module({
-  imports: [UserModule,MongooseModule.forRoot("mongodb+srv://mounir:momo120120@cluster0.pfut0.mongodb.net/InnovOrder?retryWrites=true&w=majority")],
+  imports: [UserModule,MongooseModule.forRoot(process.env.Mongo_URL)],
   controllers: [AppController],
   providers: [AppService],
 })
